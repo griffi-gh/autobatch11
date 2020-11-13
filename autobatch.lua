@@ -16,7 +16,7 @@ local love_graphics = love.graphics
 autobatch.threshold = 4
 autobatch.batches = setmetatable( {}, { __mode = "k" } )
 autobatch.pending = { image = nil, draws = 0 }
-autobatch.color = { 255, 255, 255, 255 }
+autobatch.color = { 1, 1, 1, 1 }
 autobatch.image = nil
 autobatch.stack = {}
 
@@ -30,7 +30,7 @@ local function switchActiveImage(img)
     b.sb:clear()
     b.count = 0
   else
-    love_graphics.setColor(255, 255, 255)
+    love_graphics.setColor(1, 1, 1)
   end
   -- Activate spritebatch if image was not nil
   if img then
@@ -88,7 +88,7 @@ function autobatch.draw(image, ...)
   -- Increase spritebatch capacity if we've reached it
   if b.count == b.capacity then
     b.capacity = b.capacity * 2
-    b.sb:setBufferSize(b.capacity)
+    --b.sb:setBufferSize(b.capacity)
   end
   -- Add to spritebatch
   b.sb:add(...)
@@ -103,7 +103,7 @@ function autobatch.setColor(r, g, b, a)
     r, g, b, a = unpack(r)
   end
   -- Set default alpha
-  a = a or 255
+  a = a or 1
   -- Exit early if color isn't different to the current color
   if t[1] == r and t[2] == g and t[3] == b and t[4] == a then
     return
@@ -128,7 +128,7 @@ end
 
 function autobatch.reset()
   autobatch.flush()
-  autobatch.setColor(255, 255, 255, 255)
+  autobatch.setColor(1, 1, 1, 1)
   love_graphics.reset()
 end
 
